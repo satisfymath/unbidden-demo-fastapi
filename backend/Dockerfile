@@ -62,4 +62,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 WORKDIR /app/backend/
 
+ARG REVISION=unknown
+LABEL org.opencontainers.image.revision=$REVISION
+
 CMD ["fastapi", "run", "--workers", "4"]

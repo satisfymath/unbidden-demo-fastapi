@@ -24,6 +24,7 @@ from app.models import (
     UserUpdate,
     UserUpdateMe,
 )
+from app.text import display_initials
 from app.utils import generate_new_account_email, send_email
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -127,6 +128,14 @@ def read_user_me(current_user: CurrentUser) -> Any:
     Get current user.
     """
     return current_user
+
+
+@router.get("/me/initials")
+def read_user_initials_me(current_user: CurrentUser) -> str:
+    """
+    The initials of the current user, for the avatar.
+    """
+    return display_initials(current_user.full_name or current_user.email)
 
 
 @router.delete("/me", response_model=Message)

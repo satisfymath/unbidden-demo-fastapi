@@ -23,6 +23,16 @@ def test_get_users_superuser_me(
     assert current_user["email"] == settings.FIRST_SUPERUSER
 
 
+def test_get_my_initials(
+    client: TestClient, superuser_token_headers: dict[str, str]
+) -> None:
+    r = client.get(
+        f"{settings.API_V1_STR}/users/me/initials", headers=superuser_token_headers
+    )
+    assert r.status_code == 200
+    assert r.json().isupper()
+
+
 def test_get_users_normal_user_me(
     client: TestClient, normal_user_token_headers: dict[str, str]
 ) -> None:
