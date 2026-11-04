@@ -1,0 +1,9 @@
+name: teamboard-gateway
+services:
+  frontproxy:
+    image: envoyproxy/envoy:v1.31-latest
+    volumes: ["./envoy.yaml:/etc/envoy/envoy.yaml:ro,Z"]
+    ports: ["127.0.0.1:9901:9901", "127.0.0.1:10000:10000"]
+    networks: [unbidden-demo_default]
+networks:
+  unbidden-demo_default: {external: true}

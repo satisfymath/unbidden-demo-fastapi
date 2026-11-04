@@ -1,0 +1,83 @@
+[
+  {
+    "id": "cap_cc80a7e862784138",
+    "kind": "stats",
+    "source": "http://127.0.0.1:9901/stats",
+    "version": 1,
+    "line": "(?P<name>[a-z0-9_.]+): (?P<value>\\d+(\\.\\d+)?)",
+    "entity": "(?P<entity>[a-z0-9_.]+)\\.(?P<metric>[a-z0-9_]+)",
+    "status": "validated",
+    "card": {
+      "purpose": "read the counters and gauges http://127.0.0.1:9901/stats serves as text",
+      "kind": "stats",
+      "input": {
+        "lines": "list[str]: the endpoint's text, one metric per line"
+      },
+      "output": {
+        "readings": "list[{name: str, value: float, entity: str | None, metric: str | None}]"
+      },
+      "dependencies": [],
+      "permissions": [
+        "runtime.read"
+      ],
+      "data_sources": [
+        "http://127.0.0.1:9901/stats"
+      ],
+      "privacy": "metric names may name internal services; readings stay local and are never sent to a model",
+      "side_effects": "none: reads text it is given; no network, no files, no processes",
+      "limits": {
+        "max_pattern_chars": 300,
+        "max_us_per_line": 100
+      },
+      "disable": "`unbidden forge disable <id>`: status becomes disabled and nothing reads through it again"
+    },
+    "tests": [
+      {
+        "line": "cluster.teamboard_upstream.circuit_breakers.default.rq_pending_open: 0"
+      },
+      {
+        "line": "cluster.teamboard_upstream.external.upstream_rq_200: 100"
+      },
+      {
+        "line": "cluster.teamboard_upstream.lb_zone_routing_all_directly: 0"
+      },
+      {
+        "line": "cluster.teamboard_upstream.membership_healthy: 1"
+      },
+      {
+        "line": "cluster.teamboard_upstream.upstream_cx_http1_total: 34"
+      },
+      {
+        "line": "cluster.teamboard_upstream.upstream_cx_http3_total: 0"
+      },
+      {
+        "line": "cluster.teamboard_upstream.upstream_cx_rx_bytes_total: 31724"
+      },
+      {
+        "line": "cluster.teamboard_upstream.upstream_rq_max_duration_reached: 0"
+      },
+      {
+        "line": "cluster.teamboard_upstream.upstream_rq_timeout: 0"
+      },
+      {
+        "line": "cluster_manager.cluster_added: 1"
+      }
+    ],
+    "quality": {
+      "coverage": 0.9712,
+      "heldout_lines": 417,
+      "oracle": 1,
+      "problems": [],
+      "unread_other_shapes": 14,
+      "us_per_line": 27.22
+    },
+    "failures": [],
+    "provenance": {
+      "attempts": 1,
+      "origin": "bridge",
+      "shown_lines": 40
+    },
+    "approved_by": null,
+    "created_at": "2026-11-04T21:50:32.703920Z"
+  }
+]
