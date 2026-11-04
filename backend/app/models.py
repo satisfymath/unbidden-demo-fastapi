@@ -1,6 +1,7 @@
 import uuid
 from datetime import UTC, datetime
 
+import sqlalchemy as sa
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
 
@@ -80,11 +81,20 @@ class ItemCreate(ItemBase):
 # Properties to receive on item update
 class ItemUpdate(SQLModel):
     title: str | None = Field(default=None, min_length=1, max_length=255)
-    description: str | None = Field(default=None, max_length=255)
+    description: str | None = Field(default=None, min_length=1, max_length=255)
 
 
 # Database model, database table inferred from class name
 class Item(ItemBase, table=True):
+    __table_args__ = (
+        sa.Index(
+            "ix_item_owner_id_created_at_title_id",
+            "owner_id",
+            "created_at",
+            "title",
+            "id",
+        ),
+    )
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     created_at: datetime | None = Field(default_factory=get_datetime_utc)
     owner_id: uuid.UUID = Field(
