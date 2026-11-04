@@ -28,5 +28,4 @@ def test_email(email_to: EmailStr) -> Message:
 
 @router.get("/health-check/")
 async def health_check() -> bool:
-    raise RuntimeError("release 1.6 broke the database pool")
     return True
